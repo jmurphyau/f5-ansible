@@ -171,7 +171,7 @@ class ModuleParameters(Parameters):
         return result
 
     def _format_member_address(self, member):
-        if is_valid_ip(member):
+        if is_valid_ip(member, strip_rd=True):
             address = '/{0}/{1}'.format(self.partition, member)
             return address
         else:

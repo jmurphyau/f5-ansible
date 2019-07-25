@@ -32,8 +32,31 @@ except ImportError:
     from ansible.module_utils.compat.ipaddress import ip_interface
     from ansible.module_utils.compat.ipaddress import ip_network
 
+def extract_rd(addr):
+    if '%' in addr:
+        rd_split = addr.split('%')
+        if '/' in rd_split[1]:
+            return rd_split[1].split('/')[0]
+        else:
+            return rd_split[1]
+    return None
 
-def is_valid_ip(addr, type='all'):
+def contains_rd(addr):
+    return extract_rd(addr) is not None
+
+def strip_rd(addr):
+    if '%' in addr:
+        rd_split = addr.split('%')
+        if '/' in rd_split[1]:
+            return '{0}/{1}'.format(rd_split[0], rd_split[1].split('/')[1])
+        else:
+            return rd_split[0]
+    else:
+        return addr
+
+def is_valid_ip(addr, type='all', strip_rd=False)
+    if strip_rd and contains_rd(addr):
+        return is_valid_ip(strip_rd(addr), type)
     if type in ['all', 'ipv4']:
         if validate_ip_address(addr):
             return True
@@ -100,6 +123,8 @@ def get_netmask(address):
 
 
 def compress_address(address):
+    if contains_rd(address):
+        return '{0}%{1}'.format(compress_address(strip_rd(address)), extract_rd(address))
     addr = ip_network(u'{0}'.format(address))
     result = addr.compressed.split('/')[0]
     return result

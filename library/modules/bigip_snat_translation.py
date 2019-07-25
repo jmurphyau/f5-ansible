@@ -369,7 +369,7 @@ class ModuleParameters(Parameters):
     def address(self):
         if self._values['address'] is None:
             return None
-        if is_valid_ip(self._values['address']):
+        if is_valid_ip(self._values['address'], strip_rd=True):
             return compress_address(self._values['address'])
         else:
             raise F5ModuleError(
