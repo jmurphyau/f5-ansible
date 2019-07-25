@@ -20,3 +20,6 @@ st_tcp_idle_timeout2: '100'
 st_udp_idle_timeout2: '200'
 st_partition: test
 st_traffic_group: /Common/test
+st_rd_name: test
+st_rd_id: 91
+st_address2: 10.10.10.10%91

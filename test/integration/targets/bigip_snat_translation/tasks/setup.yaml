@@ -7,3 +7,9 @@
 - name: Create a traffic group for SNAT translation test
   bigip_device_traffic_group:
     name: "{{ st_traffic_group }}"
+
+- name: Create a routedomain for SNAT translaiton test
+  bigip_routedomain:
+    name: "{{ st_rd_name }}"
+    id: "{{ st_rd_id }}"
+    partition: "{{ st_partition }}"

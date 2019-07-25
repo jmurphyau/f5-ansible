@@ -111,10 +111,10 @@
       - result is not changed
       - result is success
 
-- name: Create SNAT translation using alternate partition and traffic group
+- name: Create SNAT translation using alternate partition and traffic group and rd
   bigip_snat_translation:
     name: "{{ snat_translation_name }}"
-    address: "{{ st_address }}"
+    address: "{{ st_address2 }}"
     arp: "{{ st_arp2 }}"
     connection_limit: "{{ st_connection_limit2 }}"
     description: "{{ st_description2 }}"
@@ -125,12 +125,12 @@
     udp_idle_timeout: "{{ st_udp_idle_timeout2 }}"
   register: result
 
-- name: Assert Create SNAT translation using alternate partition and traffic group
+- name: Assert Create SNAT translation using alternate partition and traffic group and rd
   assert:
     that:
       - result is changed
       - result is success
-      - result.address == st_address
+      - result.address == st_address2
       - result.arp == 'no'
       - result.connection_limit == st_connection_limit2
       - result.description == st_description2
@@ -139,10 +139,10 @@
       - result.traffic_group == '/Common/test'
       - result.udp_idle_timeout == st_udp_idle_timeout2
 
-- name: Create SNAT translation using alternate partition and traffic group - Idempotent check
+- name: Create SNAT translation using alternate partition and traffic group and rd - Idempotent check
   bigip_snat_translation:
     name: "{{ snat_translation_name }}"
-    address: "{{ st_address }}"
+    address: "{{ st_address2 }}"
     arp: "{{ st_arp2 }}"
     connection_limit: "{{ st_connection_limit2 }}"
     description: "{{ st_description2 }}"
@@ -153,7 +153,7 @@
     udp_idle_timeout: "{{ st_udp_idle_timeout2 }}"
   register: result
 
-- name: Create SNAT translation using alternate partition and traffic group - Idempotent check
+- name: Create SNAT translation using alternate partition and traffic group and rd - Idempotent check
   assert:
     that:
       - result is not changed
